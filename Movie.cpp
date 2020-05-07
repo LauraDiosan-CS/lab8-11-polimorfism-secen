@@ -22,12 +22,12 @@ void Movie::setTitle(std::string titleToBeSet)
 	this->title = titleToBeSet;
 }
 
-void Movie::setActors(std::vector<Actor*> newList)
+void Movie::setActors(std::vector<Actor> newList)
 {
 	this->actorList = newList;
 }
 
-std::vector<Actor*> Movie::getActors()
+std::vector<Actor> Movie::getActors()
 {
 	return this->actorList;
 }

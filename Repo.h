@@ -1,18 +1,17 @@
 #pragma once
-#include <queue>
-#include <unordered_map>
+#include <vector>
 template <class T>
 class Repo
 {
 protected:
-	std::priority_queue<T> entities;
+	std::vector<T> entities;
 public:
-		Repo() { entities = std::priority_queue<T>(); }
+		Repo() { entities = std::vector<T>(); }
 	   ~Repo() {}
-	   void addItem(T s){this->entities.push(s);}
-	   std::priority_queue<T> getAll() {return this->entities;}
+	   void push_back(T s){this->entities.push_back(s);}
+	   std::vector<T> getAll() {return this->entities;}
 	   unsigned int getSize() { return entities.size(); }
-	   void removeElementAtPos(int i) { entities.pop(); }
-	   void clear() { while (!entities.empty()) { entities.pop(); } }
+	   void removeElementAtPos(int i) { entities.erase(i); }
+	   void clear() { entities.clear(); }
 };
 

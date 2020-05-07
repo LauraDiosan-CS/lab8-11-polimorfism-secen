@@ -7,7 +7,7 @@ void Service::addActor(std::string name)
 
 std::vector<Actor> Service::getActors()
 {
-	return this->actors;
+	return this->actors.getAll();
 }
 
 std::vector<Entry> Service::queryByDate(std::string date)
@@ -31,7 +31,7 @@ void Service::addEntry(Entry ent)
 	this->entries.push_back(ent);
 }
 
-void Service::addActorsToEntry(std::vector<Actor*> actorlist, Entry &entryToModify)
+void Service::addActorsToEntry(std::vector<Actor> actorlist, Entry &entryToModify)
 {
 	for (int i =0;i<this->entries.size();i++)
 	{

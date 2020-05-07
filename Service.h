@@ -3,10 +3,11 @@
 #include <vector>
 #include "Actor.h"
 #include "Entry.h"
+#include "FileRepo.h"
 class Service
 {
 private:
-	std::vector<Actor> actors;
+	FileRepo<Actor> actors;
 	std::vector<Entry> entries;
 	/*
 	long long compute_hash(string const& s) {
@@ -26,7 +27,7 @@ public:
 	std::vector<Entry> queryByDate(std::string date);
 	std::vector<Entry> getEntires();
 	void addEntry(Entry ent);
-	void addActorsToEntry(std::vector<Actor*> actorList, Entry& entryToModify);
+	void addActorsToEntry(std::vector<Actor> actorList, Entry& entryToModify);
 	void Buy(Entry entr, int tickets);
 };
 

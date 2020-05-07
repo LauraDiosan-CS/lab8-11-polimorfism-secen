@@ -9,7 +9,7 @@ template <class T>
 class FileRepo :
 	public Repo<T>
 {
-private:
+protected:
 	std::string m_filename;
 public:
 	FileRepo() 
@@ -24,27 +24,27 @@ public:
 	void saveToFile()
 	{
 		std::ofstream fout(m_filename);
-		std::priority_queue<T> q = this->getAll();
+		std::vector<T> q = this->getAll();
 		int size = this->getSize();
 		fout << size<<'\n';
-		while(!q.empty())
+		for(int i =0;i<size;i++)
 		{
-			T elem = q.top();
+			T elem = q[i];
 			fout << elem << '\n';
-			q.pop();
 		}
 	};
 	void loadFromFile()
 	{
 		std::ifstream fin(m_filename);
-		int size;
+		int size=0;
 		fin >> size;
 		this->clear();
+		fin.ignore();
 		for (int i = 0; i < size; i++)
 		{
 			T elem;
 			fin >> elem;
-			this->addItem(elem);
+			this->push_back(elem);
 		}
 	};
 };

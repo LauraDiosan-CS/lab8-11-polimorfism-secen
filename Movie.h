@@ -5,15 +5,15 @@
 class Movie
 {
 private:
-	std::vector<Actor*> actorList;
+	std::vector<Actor> actorList;
 	std::string title;
 public:
 	Movie();
 	Movie(std::string newTitle);
 	~Movie();
 	void setTitle(std::string titleToBeSet);
-	void setActors(std::vector<Actor*> newList);
-	std::vector<Actor*> getActors();
+	void setActors(std::vector<Actor> newList);
+	std::vector<Actor> getActors();
 	std::string getTitle();
 };
 

@@ -6,6 +6,14 @@ std::ostream& operator<<(std::ostream& os, const Actor& dt)
 	return os;
 }
 
+std::istream& operator>>(std::istream& in, Actor& dt)
+{
+	std::string futureName;
+	getline(in, futureName);
+	dt.name = futureName;
+	return in;
+}
+
 Actor::Actor()
 {
 	this->name = "";

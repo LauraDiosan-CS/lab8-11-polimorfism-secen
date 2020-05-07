@@ -1,5 +1,7 @@
 #include "Test.h"
 #include "Service.h"
+#include "FileRepo.h"
+#include "FileRepoCSV.h"
 #include <vector>
 #include <assert.h>
 #include <string>
@@ -36,13 +38,39 @@ void tests()
 	}
 	{
 		Service s;
-		std::vector<Actor*> actors;
-		actors.push_back(new Actor("Mihai Barbu"));
-		actors.push_back(new Actor("Victor Crainic"));
+		std::vector<Actor> actors;
+		actors.push_back(Actor("Mihai Barbu"));
+		actors.push_back(Actor("Victor Crainic"));
 		Entry testEntry = Entry(Movie("Miorita"), 10, "10.10.1000");
 		s.addEntry(testEntry);
 		s.addActorsToEntry(actors, testEntry);
 		assert((s.getEntires()[0].getMovie()->getActors())[0] == actors[0]);
 		assert((s.getEntires()[0].getMovie()->getActors())[1] == actors[1]);
+	}
+	{
+		FileRepo<Actor> rep("testing actor.txt");
+		Actor a = Actor("Ionel Crudu");
+		Actor b = Actor("Ana Maria");
+		rep.push_back(a);
+		rep.push_back(b);
+		rep.saveToFile();
+		rep.clear();
+		rep.loadFromFile();
+		assert(rep.getSize() == 2);
+		assert(rep.getAll()[0] == a);
+		assert(rep.getAll()[1] == b);
+	}
+	{
+		FileRepoCSV<Actor> rep("testing actor.csv");
+		Actor a = Actor("Ionel Crudu");
+		Actor b = Actor("Ana Maria");
+		rep.push_back(a);
+		rep.push_back(b);
+		rep.saveToFile();
+		rep.clear();
+		rep.loadFromFile();
+		assert(rep.getSize() == 2);
+		assert(rep.getAll()[0] == a);
+		assert(rep.getAll()[1] == b);
 	}
 }
