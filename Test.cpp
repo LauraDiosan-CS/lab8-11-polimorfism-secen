@@ -16,6 +16,13 @@ void tests()
 		act1 = act2;
 	}
 	{
+		Movie m1 = Movie("Alien");
+		Movie m2 = Movie("Ion");
+		assert(m1.getTitle() == "Alien");
+		assert(m2.getTitle() == "Ion");
+		assert(m1 != m2);
+	}
+	{
 		Service s;
 		s.addActor("Ion");
 		std::vector<Actor> vec = s.getActors();

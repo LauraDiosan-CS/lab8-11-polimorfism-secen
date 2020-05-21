@@ -2,6 +2,7 @@
 #include "Repo.h"
 #include <cstring>
 #include <fstream>
+#include <string>
 #include <queue>
 #include <string>
 #include <sstream>
@@ -18,6 +19,11 @@ public:
 	};
 	FileRepo(const std::string newFilename)
 	{
+		std::stringstream ss(newFilename);
+		std::string extension;
+		std::getline(ss, extension, '.');
+		//if (extension != "txt")
+			//throw std::exception("Invalid extension\n");
 		m_filename = newFilename;
 	}
 	~FileRepo() {}
@@ -30,7 +36,7 @@ public:
 		for(int i =0;i<size;i++)
 		{
 			T elem = q[i];
-			fout << elem << '\n';
+			fout << elem.toString() << '\n';
 		}
 	};
 	void loadFromFile()
@@ -43,7 +49,9 @@ public:
 		for (int i = 0; i < size; i++)
 		{
 			T elem;
-			fin >> elem;
+			std::string line;
+			std::getline(fin,line);
+			elem.readFromLine(line);
 			this->push_back(elem);
 		}
 	};

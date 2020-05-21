@@ -1,6 +1,7 @@
 #include "Console.h"
 #include "Entry.h"
-
+#include "FileRepo.h"
+#include "FileRepoCSV.h"
 
 //LOGIN MENU RELATED
 
@@ -9,7 +10,15 @@
 
 void Console::executeAskForFile()
 {
-	std::cout << "FILENAME ASKING IS UNIMPLEMENTED YET, BYPASSING\n";
+	std::cout << "CSV or TXT for extension for file data?\n";
+	std::cout << "0.TXT\n";
+	std::cout << "1.CSV\n";
+	std::cin >> isCSV;
+	if (isCSV)
+		this->serv.setActorRepo(*new FileRepoCSV<Actor>("data.csv"));
+	else
+		this->serv.setActorRepo(*new FileRepo<Actor>("data.txt"));
+	this->serv.loadFromFile();
 	this->currentState = States::LOGIN_PROMPT;
 }
 
@@ -84,12 +93,20 @@ void Console::executeAddMenu()
 	while (this->currentState == States::ADD_MENU)
 	{
 		std::cout << "1.Add Actor\n";
+		std::cout << "2.Add Movie\n";
+		std::cout << "3.Add Entry\n";
 		std::cout << "0.Exit\n";
 		std::cout << "Selection: ";
 		int choice;
 		std::cin >> choice;
 		switch (choice)
 		{
+		case 3:
+			this->currentState = States::ADD_ENTRY;
+			break;
+		case 2:
+			this->currentState = States::ADD_MOVIE;
+			break;
 		case 1:
 			this->currentState = States::ADD_ACTOR;
 			break;
@@ -114,6 +131,34 @@ void Console::executeAddActor()
 		this->serv.addActor(newName);
 		currentState = States::MAIN_MENU;
 	}
+}
+
+void Console::executeAddMovie()
+{
+	if (this->currentState == States::ADD_MOVIE)
+	{
+		std::cout << "UNIMPLEMENTED!!!!\n";
+	}
+	this->currentState = States::ADD_MENU;
+}
+
+void Console::executeAddEntry()
+{
+	if (this->currentState == States::ADD_ENTRY)
+	{
+		std::string name, newDate;
+		int cnt;
+		std::cout << "Please enter the name of the movie: ";
+		std::cin.ignore();
+		std::getline(std::cin, name);
+		std::cout << "Please enter the no. of seats: ";
+		std::cin >> cnt;
+		std::cout << "Please enter the date: ";
+		std::cin.ignore();
+		std::getline(std::cin, newDate);
+		this->serv.addEntry(Entry(Movie(name), cnt, newDate));
+	}
+	this->currentState = States::MAIN_MENU;
 }
 
 void Console::buyTicketMenu(Entry entr)
@@ -145,9 +190,10 @@ void Console::selectEntryToBuyMenu(std::vector<Entry> results)
 		{
 			std::cout << i + 1 << ".";
 			Entry ent = results[i];
-			std::cout << ent.getMovie()->getTitle();
+			std::cout << ent.getMovie()->getTitle()<<'\n';
 		}
-		std::cout << "0.Exit";
+		std::cout << "0.Exit\n";
+		std::cout << "Please enter the number of the entry: ";
 		int choice;
 		std::cin >> choice;
 		if (choice < 0)
@@ -198,6 +244,8 @@ void Console::executePrintMenu()
 	while (currentState == States::PRINT_MENU)
 	{
 		std::cout << "1.Print Actors\n";
+		std::cout << "2.Print Movies\n";
+		std::cout << "3.Print Entries\n";
 		std::cout << "0.Exit\n";
 		std::cout << "Selection: ";
 		int choice;
@@ -207,11 +255,39 @@ void Console::executePrintMenu()
 		case 1:
 			this->currentState = States::PRINT_ACTORS;
 			break;
+		case 2:
+			this->currentState = States::PRINT_MOVIES;
+			break;
+		case 3:
+			this->currentState = States::PRINT_ENTRIES;
+			break;
 		case 0:
 			this->currentState = States::MAIN_MENU;
 			break;
 		}
 	}
+}
+
+void Console::executePrintMovies()
+{
+	if (this->currentState == States::PRINT_MOVIES)
+	{
+		//auto mov = this->serv.getMovies();
+	}
+	this->currentState = States::MAIN_MENU;
+}
+
+void Console::executePrintEntries()
+{
+	if (this->currentState == States::PRINT_ENTRIES)
+	{
+		auto entries = this->serv.getEntires();
+		for (Entry e : entries)
+		{
+			std::cout << "Title: " << e.getMovie()->getTitle() << " Date: " << e.getDate() << " No of Seats left: " << e.getNoOfSeatsLeft() << '\n';
+		}
+	}
+	this->currentState = States::MAIN_MENU;
 }
 
 void Console::run()
@@ -243,6 +319,18 @@ void Console::run()
 			break;
 		case States::SEACH_BY_DATE:
 			executeSearchByDate();
+			break;
+		case States::ADD_ENTRY:
+			executeAddEntry();
+			break;
+		case States::ADD_MOVIE:
+			executeAddMovie();
+			break;
+		case States::PRINT_MOVIES:
+			executePrintMovies();
+			break;
+		case States::PRINT_ENTRIES:
+			executePrintEntries();
 			break;
 		default:
 			this->currentState = States::MAIN_MENU;

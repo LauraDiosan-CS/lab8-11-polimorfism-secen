@@ -38,6 +38,26 @@ void Actor::setName(std::string nameToBeSet)
 	this->name = nameToBeSet;
 }
 
+std::string Actor::toCSV()
+{
+	return this->getName();
+}
+
+std::string Actor::toString()
+{
+	return this->getName();
+}
+
+void Actor::readFromLine(std::string line)
+{
+	this->setName(line);
+}
+
+void Actor::readFromCSVLine(std::string csvLine)
+{
+	this->setName(csvLine);
+}
+
 bool Actor::operator==(Actor other)
 {
 	return this->name == other.name;

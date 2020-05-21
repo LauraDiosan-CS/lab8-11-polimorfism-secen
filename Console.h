@@ -19,11 +19,14 @@ enum class States
 	REMOVE_ACTOR,
 	PRINT_ACTORS,
 	PRINT_MENU,
+	PRINT_ENTRIES,
+	PRINT_MOVIES,
 	EXIT
 };
 class Console
 {
 private:
+	bool isCSV;
 	States currentState=States::ASK_FOR_FILE;
 	Service serv;
 	//ASK_FOR_FILE RELATED
@@ -36,6 +39,8 @@ private:
 	//ADD MENU RELATED
 	void executeAddMenu();
 	void executeAddActor();
+	void executeAddMovie();
+	void executeAddEntry();
 	//BUYING RELATED
 	void buyTicketMenu(Entry entr);
 	//SEARCH BY DATE RELATED
@@ -44,6 +49,8 @@ private:
 	//PRINT RELATED
 	void executePrintActors();
 	void executePrintMenu();
+	void executePrintMovies();
+	void executePrintEntries();
 public:
 	void run();
 	Console();

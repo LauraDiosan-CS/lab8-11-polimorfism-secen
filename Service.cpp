@@ -1,8 +1,23 @@
 #include "Service.h"
 
+Service::Service()
+{
+	this->actors = FileRepo<Actor>(filename);
+	this->entries = std::vector<Entry>();
+	actors.loadFromFile();
+}
+
+Service::Service(FileRepo<Actor> actorRepo)
+{
+	this->actors = actorRepo;
+	this->entries = std::vector<Entry>();
+	actors.loadFromFile();
+}
+
 void Service::addActor(std::string name)
 {
 	this->actors.push_back(Actor(name));
+	this->actors.saveToFile();
 }
 
 std::vector<Actor> Service::getActors()
@@ -38,6 +53,16 @@ void Service::addActorsToEntry(std::vector<Actor> actorlist, Entry &entryToModif
 		if (this->entries[i] == entryToModify)
 			this->entries[i].getMovie()->setActors(actorlist);
 	}
+}
+
+void Service::setActorRepo(FileRepo<Actor> actorRepo)
+{
+	this->actors = actorRepo;
+}
+
+void Service::loadFromFile()
+{
+	this->actors.loadFromFile();
 }
 
 void Service::Buy(Entry entr, int tickets)
